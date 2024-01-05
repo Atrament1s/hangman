@@ -17,23 +17,28 @@ for _ in range(word_length):
 
 while not end_of_game:
     guess = input("Guess a letter: ").lower()
-    if guess not in previous_guesses:
-        print(stages[lives])
-
-    if guess in display:
-        print(f"You already guessed {guess}!")
 
     for position in range(word_length):
         letter = chosen_word[position]
         if letter == guess:
             display[position] = letter
 
+    for position in range(word_length):
+        letter = chosen_word[position]
+        if letter == guess:
+            print(stages[lives])
+            break
+
     if guess not in chosen_word:
         if guess not in previous_guesses:
-            print(f"You guessed {guess}, that's not in the word. You lose a life!")
             lives -= 1
+            if lives != 0:
+                print(stages[lives])
+                print(f"You guessed {guess}, that's not in the word. You lose a life!")
             if lives == 0:
                 end_of_game = True
+                print(stages[0])
+                print(f"You guessed {guess}, that's not in the word. You lose a life!")
                 print(f"You lose! The word was {chosen_word}!")
 
     if guess in previous_guesses:
@@ -41,7 +46,8 @@ while not end_of_game:
 
     previous_guesses.append(guess)
 
-    print(f"{' '.join(display)}")
+    if lives != 0:
+        print(f"{' '.join(display)}")
 
     if "_" not in display:
         end_of_game = True
